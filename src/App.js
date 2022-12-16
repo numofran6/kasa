@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import Chat from './pages/chat';
+import Login from './pages/login';
+import Register from './pages/register';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import SetAvatar from './pages/setAvatar';
+import Navbar from './pages/navbar';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div>
+			<Navbar />
+			<Routes>
+				<Route path="/" element={<Chat />} />
+				<Route path="/register" element={<Register />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/setavatar" element={<SetAvatar />} />
+			</Routes>
+
+			<ToastContainer
+				limit={5}
+				position={'bottom-left'}
+				autoClose={5000}
+				draggable={true}
+				pauseOnFocusLoss={false}
+			/>
+		</div>
+	);
 }
 
 export default App;
