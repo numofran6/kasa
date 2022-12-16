@@ -1,5 +1,5 @@
-const host = 'https://3.85.29.163';
-export const sockethost = 'http://3.85.29.163/';
+const host = 'https://kasaserver.vercel.app';
+export const sockethost = 'https://kasaserver.vercel.app';
 export const registerRoute = `${host}/api/auth/register`;
 export const loginRoute = `${host}/api/auth/login`;
 export const setAvatarRoute = `${host}/api/auth/setavatar`;
