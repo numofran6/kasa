@@ -1,21 +1,39 @@
-import { Route, Routes } from 'react-router-dom';
-import Chat from './pages/chat';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SetAvatar from './pages/setAvatar';
 import Navbar from './pages/navbar';
+import './style.scss';
+import { useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
 
 function App() {
+	const { currentUser } = useContext(AuthContext);
+
+	const ProtectedRoute = ({ children }) => {
+		if (!currentUser) {
+			return <Navigate to="/login" />;
+		}
+
+		return children;
+	};
+
 	return (
 		<div>
-			<Navbar />
+			<Navbar currentUser={currentUser} />
 			<Routes>
-				<Route path="/" element={<Chat />} />
+				<Route
+					path="/"
+					element={
+						<ProtectedRoute>
+							<Home />
+						</ProtectedRoute>
+					}
+				/>
 				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
-				<Route path="/setavatar" element={<SetAvatar />} />
 			</Routes>
 
 			<ToastContainer

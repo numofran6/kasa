@@ -1,22 +1,16 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Logout from '../components/Logout';
-import { useContext } from 'react';
-import { User } from '../utils/User';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
-export default function Navbar() {
-	const {
-		state: {
-			user: { user },
-		},
-	} = useContext(User);
+export default function Navbar({ currentUser }) {
 	return (
 		<Container>
 			<div>
 				<h1 className="brand">Kasa</h1>
 			</div>
 
-			{!user.id ? (
+			{!currentUser ? (
 				<div className="actions">
 					<Link to={'/login'}>Login</Link>
 					<Link to={'/register'}>Register</Link>
@@ -24,7 +18,7 @@ export default function Navbar() {
 			) : (
 				<div className="menu">
 					<p className="logout">
-						<Logout />
+						<button onClick={() => signOut(auth)}>Logout</button>
 					</p>
 				</div>
 			)}

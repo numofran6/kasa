@@ -2,87 +2,41 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-import { loginRoute } from '../utils/APIRoutes';
-import { User } from '../utils/User';
 import Logo from '../assets/hashtags.png';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 
 export default function Login() {
-	const {
-		state: {
-			user: { user },
-		},
-		dispatch,
-	} = useContext(User);
+	const [err, setErr] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
-	const [values, setValues] = useState({
-		username: '',
-		password: '',
-	});
 
-	useEffect(() => {
-		if (user?.id) {
-			toast.info('Already signed in');
+	const handleSubmit = async (e) => {
+		setLoading(true);
+		e.preventDefault();
+		const email = e.target[0].value;
+		const password = e.target[1].value;
+
+		try {
+			await signInWithEmailAndPassword(auth, email, password);
 			navigate('/');
-		}
-	}, []);
-
-	const handleChange = (event) => {
-		setValues({ ...values, [event.target.name]: event.target.value });
-	};
-
-	const handleValidation = () => {
-		const { username, password } = values;
-
-		if (username.length === '') {
-			toast.error('Username is required');
-			return false;
-		} else if (password.length === '') {
-			toast.error('Password is required');
-			return false;
-		}
-		return true;
-	};
-
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		if (handleValidation()) {
-			const { username, password } = values;
-			const { data } = await axios.post(loginRoute, {
-				username,
-				password,
-			});
-			if (data.status === false) {
-				toast.error(data.msg);
-			}
-			if (data.status === true) {
-				dispatch({ type: 'USER_CREATED', payload: data.userInfo });
-				navigate('/');
-			}
+		} catch (err) {
+			setErr(true);
+			setLoading(false);
+			console.log({ err });
 		}
 	};
 
 	return (
 		<>
 			<FormContainer>
-				<form onSubmit={(event) => handleSubmit(event)}>
+				<form onSubmit={handleSubmit}>
 					<div className="brand">
 						<img src={Logo} alt="KASA" />
 					</div>
 
-					<input
-						type="text"
-						placeholder="Username"
-						name="username"
-						min={3}
-						onChange={(e) => handleChange(e)}
-					/>
-					<input
-						type="password"
-						placeholder="Password"
-						name="password"
-						onChange={(e) => handleChange(e)}
-					/>
+					<input type="text" placeholder="Username" name="username" />
+					<input type="password" placeholder="Password" name="password" />
 
 					<button type="submit">Log In</button>
 
@@ -90,6 +44,7 @@ export default function Login() {
 						Don't have an account? <Link to={'/register'}>Register</Link>
 					</p>
 				</form>
+				{err && 'something went wrong'}
 			</FormContainer>
 		</>
 	);

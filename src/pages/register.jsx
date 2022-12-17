@@ -2,109 +2,86 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-import { registerRoute } from '../utils/APIRoutes';
-import { User } from '../utils/User';
 import Logo from '../assets/hashtags.png';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth, db, storage } from '../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function Register() {
-	const {
-		state: {
-			user: { user },
-		},
-		dispatch,
-	} = useContext(User);
+	const [err, setErr] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
-	const [values, setValues] = useState({
-		username: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
-	});
 
-	useEffect(() => {
-		if (user?.id) {
-			toast.info('Account already created');
-			navigate('/');
-		}
-	}, []);
+	const handleSubmit = async (e) => {
+		setLoading(true);
+		e.preventDefault();
+		const displayName = e.target[0].value;
+		const email = e.target[1].value;
+		const password = e.target[2].value;
+		const file = e.target[4].files[0];
 
-	const handleChange = (event) => {
-		setValues({ ...values, [event.target.name]: event.target.value });
-	};
+		try {
+			//Create user
+			const res = await createUserWithEmailAndPassword(auth, email, password);
 
-	const handleValidation = () => {
-		const { username, email, password, confirmPassword } = values;
+			//Create a unique image name
+			const date = new Date().getTime();
+			const storageRef = ref(storage, `${displayName + date}`);
 
-		if (password !== confirmPassword) {
-			toast.error('Passwords do not match');
-			return false;
-		} else if (username.length < 3) {
-			toast.error('Username should be greater than 3 characters');
-			return false;
-		} else if (password.length < 6) {
-			toast.error('Password should be greater than 5 characters');
-			return false;
-		} else if (email === '') {
-			toast.error('Email is required');
-		}
-		return true;
-	};
+			await uploadBytesResumable(storageRef, file).then(() => {
+				getDownloadURL(storageRef).then(async (downloadURL) => {
+					try {
+						//Update profile
+						await updateProfile(res.user, {
+							displayName,
+							photoURL: downloadURL,
+						});
+						//create user on firestore
+						await setDoc(doc(db, 'users', res.user.uid), {
+							uid: res.user.uid,
+							displayName,
+							email,
+							photoURL: downloadURL,
+						});
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		if (handleValidation()) {
-			const { username, email, password } = values;
-			const { data } = await axios.post(registerRoute, {
-				username,
-				email,
-				password,
+						//create empty user chats on firestore
+						await setDoc(doc(db, 'userChats', res.user.uid), {});
+						navigate('/');
+					} catch (err) {
+						console.log(err);
+						setErr(true);
+						setLoading(false);
+					}
+				});
 			});
-			if (data.status === false) {
-				toast.error(data.msg);
-			}
-			if (data.status === true) {
-				dispatch({ type: 'USER_CREATED', payload: data.userInfo });
-				toast.success('User Created');
-				navigate('/setAvatar');
-			}
+		} catch (err) {
+			setErr(true);
+			setLoading(false);
+			console.log({ err });
 		}
 	};
-
-	// console.log({ user });
 
 	return (
 		<>
 			<FormContainer>
-				<form onSubmit={(event) => handleSubmit(event)}>
+				<form onSubmit={handleSubmit}>
 					<div className="brand">
 						<img src={Logo} alt="KASA" />
 					</div>
 
-					<input
-						type="text"
-						placeholder="Username"
-						name="username"
-						onChange={(e) => handleChange(e)}
-					/>
-					<input
-						type="email"
-						placeholder="Email"
-						name="email"
-						onChange={(e) => handleChange(e)}
-					/>
-					<input
-						type="password"
-						placeholder="Password"
-						name="password"
-						onChange={(e) => handleChange(e)}
-					/>
+					<input type="text" placeholder="Name" name="name" />
+					<input type="email" placeholder="Email" name="email" />
+					<input type="password" placeholder="Password" name="password" />
 					<input
 						type="password"
 						placeholder="Confirm Password"
 						name="confirmPassword"
-						onChange={(e) => handleChange(e)}
 					/>
+
+					<input type="file" id="file" style={{ display: 'none' }} />
+					<label htmlFor="file">Add an Avatar</label>
 
 					<button type="submit">Create User</button>
 
@@ -112,6 +89,7 @@ export default function Register() {
 						Already have an account? <Link to={'/login'}>Login</Link>
 					</p>
 				</form>
+				{err && 'something went wrong'}
 			</FormContainer>
 		</>
 	);
@@ -127,6 +105,7 @@ const FormContainer = styled.div`
 		gap: 1rem;
 		align-items: center;
 		background-color: #171717;
+		color: white;
 		.brand {
 			display: flex;
 			align-items: center;
