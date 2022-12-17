@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
+import { RiLogoutCircleRLine } from 'react-icons/ri';
 
 export default function Navbar({ currentUser }) {
 	return (
@@ -17,9 +18,10 @@ export default function Navbar({ currentUser }) {
 				</div>
 			) : (
 				<div className="menu">
-					<p className="logout">
-						<button onClick={() => signOut(auth)}>Logout</button>
-					</p>
+					<div className="logout" onClick={() => signOut(auth)}>
+						<RiLogoutCircleRLine style={{ marginRight: '5px' }} />
+						<span>Logout</span>
+					</div>
 				</div>
 			)}
 		</Container>
@@ -28,7 +30,6 @@ export default function Navbar({ currentUser }) {
 
 const Container = styled.div`
 	@media screen and (min-width: 700px) {
-		width: 100vw;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -57,10 +58,21 @@ const Container = styled.div`
 				color: black;
 			}
 		}
+		.menu {
+			.logout {
+				display: flex;
+				align-items: center;
+				cursor: pointer;
+				transition: 0.3s ease-in-out;
+				&:hover {
+					color: brown;
+					font-weight: bold;
+				}
+			}
+		}
 	}
 
 	@media screen and (min-width: 0px) and (max-width: 700px) {
-		width: 100vw;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -89,6 +101,18 @@ const Container = styled.div`
 			letter-spacing: 0.5px;
 			&:hover {
 				color: black;
+			}
+		}
+		.menu {
+			.logout {
+				display: flex;
+				align-items: center;
+				cursor: pointer;
+				transition: 0.3s ease-in-out;
+				&:hover {
+					color: brown;
+					font-weight: bold;
+				}
 			}
 		}
 	}

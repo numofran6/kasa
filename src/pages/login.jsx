@@ -1,15 +1,28 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import Logo from '../assets/hashtags.png';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
+import { Loader } from '../assets/loader';
 
 export default function Login() {
-	const [err, setErr] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+
+	const handleValidation = (email, password) => {
+		if (email === '') {
+			toast.error('Email is required');
+			setLoading(false);
+			return false;
+		} else if (password === '') {
+			toast.error('Password is required');
+			setLoading(false);
+			return false;
+		}
+		return true;
+	};
 
 	const handleSubmit = async (e) => {
 		setLoading(true);
@@ -17,13 +30,14 @@ export default function Login() {
 		const email = e.target[0].value;
 		const password = e.target[1].value;
 
-		try {
-			await signInWithEmailAndPassword(auth, email, password);
-			navigate('/');
-		} catch (err) {
-			setErr(true);
-			setLoading(false);
-			console.log({ err });
+		if (handleValidation(email, password)) {
+			try {
+				await signInWithEmailAndPassword(auth, email, password);
+				navigate('/');
+			} catch (err) {
+				setLoading(false);
+				toast.error('Invalid email or password');
+			}
 		}
 	};
 
@@ -35,16 +49,21 @@ export default function Login() {
 						<img src={Logo} alt="KASA" />
 					</div>
 
-					<input type="text" placeholder="Username" name="username" />
+					<input type="text" placeholder="Email" name="Email" />
 					<input type="password" placeholder="Password" name="password" />
 
-					<button type="submit">Log In</button>
+					{loading ? (
+						<div style={{ textAlign: 'center' }}>
+							<Loader />
+						</div>
+					) : (
+						<button type="submit">Log In</button>
+					)}
 
 					<p>
 						Don't have an account? <Link to={'/register'}>Register</Link>
 					</p>
 				</form>
-				{err && 'something went wrong'}
 			</FormContainer>
 		</>
 	);
