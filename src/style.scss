@@ -36,6 +36,7 @@
       flex: 1;
       background-color: #064e3b;
       position: relative;
+      overflow: auto;
 
       .navbar {
         display: flex;
@@ -114,6 +115,8 @@
         }
       }
 
+      .chats{
+        overflow: auto;
       .userChat {
         padding: 10px;
         display: flex;
@@ -146,7 +149,7 @@
             color: lightgray;
           }
         }
-      }
+      }}
     }
     
     .chat {
