@@ -11,6 +11,8 @@ import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 import { db, storage } from '../firebase';
 import { v4 as uuid } from 'uuid';
+import { IoMdSend } from 'react-icons/io';
+import { IoDocumentAttach } from 'react-icons/io5';
 
 export const Input = () => {
 	const [text, setText] = useState('');
@@ -20,56 +22,60 @@ export const Input = () => {
 
 	const handleSend = async (e) => {
 		e.preventDefault();
-		if (img) {
-			const storageRef = ref(storage, uuid());
+		if (text) {
+			if (img) {
+				const storageRef = ref(storage, uuid());
 
-			const uploadTask = uploadBytesResumable(storageRef, img);
+				const uploadTask = uploadBytesResumable(storageRef, img);
 
-			uploadTask.on(
-				(error) => {
-					//TODO:Handle Error
-				},
-				() => {
-					getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-						await updateDoc(doc(db, 'chats', data.chatId), {
-							messages: arrayUnion({
-								id: uuid(),
-								text,
-								senderId: currentUser.uid,
-								date: Timestamp.now(),
-								img: downloadURL,
-							}),
-						});
-					});
-				}
-			);
-		} else {
-			await updateDoc(doc(db, 'chats', data.chatId), {
-				messages: arrayUnion({
-					id: uuid(),
+				uploadTask.on(
+					(error) => {
+						//TODO:Handle Error
+					},
+					() => {
+						getDownloadURL(uploadTask.snapshot.ref).then(
+							async (downloadURL) => {
+								await updateDoc(doc(db, 'chats', data.chatId), {
+									messages: arrayUnion({
+										id: uuid(),
+										text,
+										senderId: currentUser.uid,
+										date: Timestamp.now(),
+										img: downloadURL,
+									}),
+								});
+							}
+						);
+					}
+				);
+			} else {
+				await updateDoc(doc(db, 'chats', data.chatId), {
+					messages: arrayUnion({
+						id: uuid(),
+						text,
+						senderId: currentUser.uid,
+						date: Timestamp.now(),
+					}),
+				});
+			}
+
+			await updateDoc(doc(db, 'userChats', currentUser.uid), {
+				[data.chatId + '.lastMessage']: {
 					text,
-					senderId: currentUser.uid,
-					date: Timestamp.now(),
-				}),
+				},
+				[data.chatId + '.date']: serverTimestamp(),
 			});
+
+			await updateDoc(doc(db, 'userChats', data.user.uid), {
+				[data.chatId + '.lastMessage']: {
+					text,
+				},
+				[data.chatId + '.date']: serverTimestamp(),
+			});
+
+			setText('');
+			setImg('');
 		}
-
-		await updateDoc(doc(db, 'userChats', currentUser.uid), {
-			[data.chatId + '.lastMessage']: {
-				text,
-			},
-			[data.chatId + '.date']: serverTimestamp(),
-		});
-
-		await updateDoc(doc(db, 'userChats', data.user.uid), {
-			[data.chatId + '.lastMessage']: {
-				text,
-			},
-			[data.chatId + '.date']: serverTimestamp(),
-		});
-
-		setText('');
-		setImg('');
 	};
 
 	return (
@@ -82,7 +88,6 @@ export const Input = () => {
 			/>
 
 			<div className="send">
-				<img src="" alt="" />
 				<input
 					type="file"
 					id="file"
@@ -90,9 +95,13 @@ export const Input = () => {
 					value={img}
 					onChange={(e) => setImg(e.target.files[0])}
 				/>
-				<label htmlFor="file">Attach</label>
+				<label htmlFor="file" className="attach">
+					<IoDocumentAttach />
+				</label>
 
-				<button onClick={handleSend}>Send</button>
+				<button onClick={handleSend}>
+					<IoMdSend />
+				</button>
 			</div>
 		</form>
 	);

@@ -20,24 +20,22 @@ export const Search = () => {
 	const { currentUser } = useContext(AuthContext);
 
 	const handleSearch = async () => {
-		const q = query(
-			collection(db, 'users'),
-			where('displayName', '==', username)
-		);
+		if (username) {
+			const q = query(
+				collection(db, 'users'),
+				where('displayName', '==', username)
+			);
 
-		try {
-			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach((doc) => {
-				setUser(doc.data());
-				console.log('x');
-			});
-		} catch (err) {
-			setErr(true);
+			try {
+				const querySnapshot = await getDocs(q);
+				querySnapshot.forEach((doc) => {
+					setUser(doc.data());
+					console.log('x');
+				});
+			} catch (err) {
+				setErr(true);
+			}
 		}
-	};
-
-	const handleKey = (e) => {
-		e.code === 'Enter' && handleSearch();
 	};
 
 	const handleSelect = async () => {
@@ -81,13 +79,15 @@ export const Search = () => {
 	return (
 		<div className="search">
 			<div className="searchForm">
-				<input
-					type="text"
-					placeholder="Find a user"
-					onChange={(e) => setUsername(e.target.value)}
-					value={username}
-					onKeyDown={handleKey}
-				/>
+				<div className="searchaction">
+					<input
+						type="text"
+						placeholder="Find a user"
+						onChange={(e) => setUsername(e.target.value)}
+						value={username}
+					/>
+					<button onClick={handleSearch}>Search</button>
+				</div>
 				{err && <em>User not found.</em>}
 				{user && (
 					<div className="userChat" onClick={handleSelect}>

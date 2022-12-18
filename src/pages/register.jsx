@@ -114,7 +114,7 @@ export default function Register() {
 					/>
 
 					<label htmlFor="file" className="file">
-						<BsCardImage className="avatarImage" style={{ color: 'a855f7' }} />
+						<BsCardImage className="avatarImage" style={{ color: '064e3b' }} />
 						Add Profile Picture
 						<input type="file" id="file" style={{ display: 'none' }} />
 					</label>
@@ -179,7 +179,7 @@ const FormContainer = styled.div`
 				width: 17rem;
 				font-size: 1rem;
 				&:focus {
-					border: 1.3px solid #a855f7;
+					border: 1.3px solid #064e3b;
 					outline: none;
 				}
 			}
@@ -199,7 +199,7 @@ const FormContainer = styled.div`
 			}
 		}
 		button {
-			background-color: #6b21a8;
+			background-color: #064e3b;
 			color: white;
 			padding: 1rem 2rem;
 			border: none;
@@ -210,11 +210,11 @@ const FormContainer = styled.div`
 			text-transform: uppercase;
 			transition: 0.3s ease-in-out;
 			&:hover {
-				background-color: #d8b4fe;
-				color: #581c87;
+				background-color: #a7f3d0;
+				color: #064e3b;
 			}
 			&:active {
-				background-color: #6b21a8;
+				background-color: #064e3b;
 				color: white;
 			}
 		}
@@ -223,16 +223,16 @@ const FormContainer = styled.div`
 			font-size: 0.9rem;
 			text-align: center;
 			a {
-				color: #581c87;
+				color: #064e3b;
 				text-decoration: none;
 				font-weight: bold;
 				font-size: 1rem;
 				text-transform: uppercase;
 				&:hover {
-					color: #a855f7;
+					color: #a7f3d0;
 				}
 				&:active {
-					color: #581c87;
+					color: #064e3b;
 				}
 			}
 		}
@@ -276,12 +276,12 @@ const FormContainer = styled.div`
 				padding: 1rem 1.5rem;
 				border-radius: 0.4rem;
 				color: white;
-				border: 1px solid #67646a;
+				border: 1px solid #423f45;
 				outline: none;
 				width: 15rem;
 				font-size: 1rem;
 				&:focus {
-					border: 1.3px solid #a855f7;
+					border: 1.3px solid #064e3b;
 					outline: none;
 				}
 			}
@@ -301,7 +301,7 @@ const FormContainer = styled.div`
 				}
 			}
 			button {
-				background-color: #6b21a8;
+				background-color: #064e3b;
 				color: white;
 				padding: 1rem 2rem;
 				border: none;
@@ -312,11 +312,11 @@ const FormContainer = styled.div`
 				text-transform: uppercase;
 				transition: 0.3s ease-in-out;
 				&:hover {
-					background-color: #d8b4fe;
-					color: #581c87;
+					background-color: #a7f3d0;
+					color: #064e3b;
 				}
 				&:active {
-					background-color: #6b21a8;
+					background-color: #064e3b;
 					color: white;
 				}
 			}
@@ -325,16 +325,16 @@ const FormContainer = styled.div`
 				font-size: 0.9rem;
 				text-align: center;
 				a {
-					color: #a855f7;
+					color: #064e3b;
 					text-decoration: none;
 					font-weight: bold;
 					font-size: 1rem;
 					text-transform: uppercase;
 					&:hover {
-						color: #581c87;
+						color: #a7f3d0;
 					}
 					&:active {
-						color: #a855f7;
+						color: #064e3b;
 					}
 				}
 			}

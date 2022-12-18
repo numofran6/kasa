@@ -83,6 +83,7 @@ const Container = styled.div`
 		padding: 0 1rem;
 		position: sticky;
 		top: 0px;
+		z-index: 1;
 		.brand {
 			text-transform: uppercase;
 			font-size: 2rem;
