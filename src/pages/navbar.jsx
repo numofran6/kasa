@@ -13,7 +13,7 @@ export default function Navbar({ currentUser }) {
 
 			{!currentUser ? (
 				<div className="actions">
-					<Link to={'/login'}>Login</Link>
+					<Link to={'/'}>Login</Link>
 					<Link to={'/register'}>Register</Link>
 				</div>
 			) : (
@@ -36,6 +36,8 @@ const Container = styled.div`
 		align-items: center;
 		background-color: #facc15;
 		padding: 0 2rem;
+		position: sticky;
+		top: 0px;
 		.brand {
 			text-transform: uppercase;
 			font-size: 2rem;

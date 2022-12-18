@@ -8,13 +8,14 @@ import Navbar from './pages/navbar';
 import './style.scss';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
+import Nopage from './pages/nopage';
 
 function App() {
 	const { currentUser } = useContext(AuthContext);
 
 	const ProtectedRoute = ({ children }) => {
 		if (!currentUser) {
-			return <Navigate to="/login" />;
+			return <Navigate to="/" />;
 		}
 
 		return children;
@@ -25,7 +26,7 @@ function App() {
 			<Navbar currentUser={currentUser} />
 			<Routes>
 				<Route
-					path="/"
+					path="/chat"
 					element={
 						<ProtectedRoute>
 							<Home />
@@ -33,7 +34,9 @@ function App() {
 					}
 				/>
 				<Route path="/register" element={<Register />} />
-				<Route path="/login" element={<Login />} />
+				<Route path="/" element={<Login />} />
+
+				<Route path="*" element={<Nopage />} />
 			</Routes>
 
 			<ToastContainer

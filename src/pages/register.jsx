@@ -83,7 +83,7 @@ export default function Register() {
 							//create empty user chats on firestore
 							await setDoc(doc(db, 'userChats', res.user.uid), {});
 							toast.success('User Created');
-							navigate('/');
+							navigate('/chat');
 						} catch (err) {
 							toast.error('Check inputs and try again');
 							setLoading(false);
@@ -128,7 +128,7 @@ export default function Register() {
 					)}
 
 					<p>
-						Already have an account? <Link to={'/login'}>Login</Link>
+						Already have an account? <Link to={'/'}>Login</Link>
 					</p>
 				</form>
 			</FormContainer>
@@ -278,7 +278,7 @@ const FormContainer = styled.div`
 				color: white;
 				border: 1px solid #67646a;
 				outline: none;
-				width: 18rem;
+				width: 15rem;
 				font-size: 1rem;
 				&:focus {
 					border: 1.3px solid #a855f7;

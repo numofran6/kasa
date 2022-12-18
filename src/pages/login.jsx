@@ -33,7 +33,7 @@ export default function Login() {
 		if (handleValidation(email, password)) {
 			try {
 				await signInWithEmailAndPassword(auth, email, password);
-				navigate('/');
+				navigate('/chat');
 			} catch (err) {
 				setLoading(false);
 				toast.error('Invalid email or password');
@@ -197,7 +197,7 @@ const FormContainer = styled.div`
 				color: white;
 				border: 1px solid #67646a;
 				outline: none;
-				width: 18rem;
+				width: 15rem;
 				font-size: 1rem;
 				&:focus {
 					border: 1.3px solid #a855f7;
