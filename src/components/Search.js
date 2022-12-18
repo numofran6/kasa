@@ -30,7 +30,6 @@ export const Search = () => {
 				const querySnapshot = await getDocs(q);
 				querySnapshot.forEach((doc) => {
 					setUser(doc.data());
-					console.log('x');
 				});
 			} catch (err) {
 				setErr(true);
