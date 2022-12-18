@@ -49,7 +49,14 @@ function App() {
 						</ProtectedAlreadyLoginRoute>
 					}
 				/>
-				<Route path="/" element={<Login />} />
+				<Route
+					path="/"
+					element={
+						<ProtectedAlreadyLoginRoute>
+							<Login />
+						</ProtectedAlreadyLoginRoute>
+					}
+				/>
 
 				<Route path="*" element={<Nopage />} />
 			</Routes>
