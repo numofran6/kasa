@@ -37,7 +37,7 @@
       flex: 1;
       background-color: #064e3b;
       position: relative;
-      // overflow: auto;
+      overflow: auto;
 
       .navbar {
         display: flex;
@@ -151,8 +151,6 @@
       }
 
       .chats {
-        overflow: auto;
-        height: 490px;
       .userChat {
         padding: 10px;
         display: flex;
