@@ -13,7 +13,7 @@ export default function Welcome() {
 				</h1>
 				<h3>Please select a chat to Start messaging.</h3>
 
-				<div style={{ fontSize: '0.9rem', color: 'lightgray' }}>
+				<div style={{ fontSize: '0.9rem' }}>
 					<p style={{ marginTop: '50px', fontWeight: 'bolder' }}>Login with </p>
 
 					<p>
@@ -37,16 +37,14 @@ const Container = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: white;
+	color: #dff7dd;
 	flex-direction: column;
 	height: 100%;
-	background-color: #00000076;
+	background-color: #012d21;
 	@media screen and (min-width: 0px) and (max-width: 550px) {
-		background-color: inherit;
+		background-color: #01281e;
 		.content {
-			background-color: #00000076;
 			padding: 40px 15px;
-			border-radius: 10px;
 		}
 	}
 	text-align: center;
