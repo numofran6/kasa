@@ -81,7 +81,7 @@ export const Search = () => {
 				<div className="searchaction">
 					<input
 						type="text"
-						placeholder="Find a user"
+						placeholder="Search..."
 						onChange={(e) => setUsername(e.target.value)}
 						value={username}
 					/>
