@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { AuthContext } from '../context/AuthContext';
+import Logo from '../assets/hashtags.png';
 
 export default function Welcome() {
 	const { currentUser } = useContext(AuthContext);
@@ -8,25 +9,15 @@ export default function Welcome() {
 	return (
 		<Container>
 			<div className="content">
+				<img src={Logo} alt="" />
 				<h1>
 					Welcome, <span>{currentUser.displayName}!</span>
 				</h1>
 				<h3>Please select a chat to Start messaging.</h3>
 
-				<div style={{ fontSize: '0.9rem' }}>
-					<p style={{ marginTop: '50px', fontWeight: 'bolder' }}>Login with </p>
-
-					<p>
-						Email:{' '}
-						<span>
-							<em>francis@kasa.com</em>
-						</span>{' '}
-						&nbsp; Password:{' '}
-						<span>
-							<em>{'\\][poiu'}</em>
-						</span>
-					</p>
-					<p>to start realtime chatting. OR create a new account</p>
+				<div className="help">
+					<p style={{ marginTop: '30px' }}>&bull; Create a new account</p>
+					<p>&bull; Search for the user, and start messaging</p>
 				</div>
 			</div>
 		</Container>
@@ -45,10 +36,24 @@ const Container = styled.div`
 		background-color: #01281e;
 		.content {
 			padding: 40px 15px;
+			img {
+				display: inline-flex;
+				width: 80px;
+				height: 80px;
+			}
 		}
 	}
 	text-align: center;
 	span {
 		color: #eab308;
+	}
+	.help {
+		font-size: 0.9rem;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	img {
+		display: none;
 	}
 `;
