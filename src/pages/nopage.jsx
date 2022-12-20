@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 export default function Nopage() {
 	return (
 		<Container>
-			<h2>404 | This page could not be found</h2>
-			<Link to={'/chat'}>Continue Chatting</Link>
+			<h3>404 | This page could not be found</h3>
+			<Link to={'/chat'} style={{ fontSize: '1.5rem' }}>
+				Continue Chatting
+			</Link>
 		</Container>
 	);
 }
