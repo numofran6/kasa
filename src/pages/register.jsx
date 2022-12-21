@@ -7,7 +7,6 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db, storage } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { BsCardImage } from 'react-icons/bs';
-
 import { doc, setDoc } from 'firebase/firestore';
 import { Loader } from '../assets/loader';
 
@@ -82,7 +81,7 @@ export default function Register() {
 
 							//create empty user chats on firestore
 							await setDoc(doc(db, 'userChats', res.user.uid), {});
-							toast.success('User Created');
+							toast.success('Account Created');
 							navigate('/chat');
 						} catch (err) {
 							toast.error('Check inputs and try again');
