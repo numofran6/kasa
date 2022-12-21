@@ -19,42 +19,39 @@ export const Input = () => {
 	const [img, setImg] = useState('');
 	const { currentUser } = useContext(AuthContext);
 	const { data } = useContext(ChatContext);
+	const date = new Date().toJSON().slice(11, 16);
 
 	const handleSend = async (e) => {
 		e.preventDefault();
 		if (img) {
 			const storageRef = ref(storage, uuid());
 
-			const uploadTask = uploadBytesResumable(storageRef, img);
-
-			uploadTask.on(
-				(error) => {
-					//TODO:Handle Error
-				},
-				() => {
-					getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-						await updateDoc(doc(db, 'chats', data.chatId), {
-							messages: arrayUnion({
-								id: uuid(),
-								text,
-								senderId: currentUser.uid,
-								date: Timestamp.now(),
-								img: downloadURL,
-							}),
-						});
+			await uploadBytesResumable(storageRef, img).then(() => {
+				getDownloadURL(storageRef).then(async (downloadURL) => {
+					await updateDoc(doc(db, 'chats', data.chatId), {
+						messages: arrayUnion({
+							id: uuid(),
+							text,
+							senderId: currentUser.uid,
+							date: Timestamp.now(),
+							msgDate: date,
+							img: downloadURL,
+						}),
 					});
-				}
-			);
-		}
-		if (text) {
-			await updateDoc(doc(db, 'chats', data.chatId), {
-				messages: arrayUnion({
-					id: uuid(),
-					text,
-					senderId: currentUser.uid,
-					date: Timestamp.now(),
-				}),
+				});
 			});
+		} else {
+			if (text) {
+				await updateDoc(doc(db, 'chats', data.chatId), {
+					messages: arrayUnion({
+						id: uuid(),
+						text,
+						senderId: currentUser.uid,
+						date: Timestamp.now(),
+						msgDate: date,
+					}),
+				});
+			}
 		}
 
 		await updateDoc(doc(db, 'userChats', currentUser.uid), {
