@@ -21,14 +21,6 @@ function App() {
 		return children;
 	};
 
-	const ProtectedAlreadyLoginRoute = ({ children }) => {
-		if (currentUser) {
-			return <Navigate to="/chat" />;
-		}
-
-		return children;
-	};
-
 	return (
 		<div>
 			<Navbar currentUser={currentUser} />
@@ -41,22 +33,8 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
-				<Route
-					path="/register"
-					element={
-						<ProtectedAlreadyLoginRoute>
-							<Register />
-						</ProtectedAlreadyLoginRoute>
-					}
-				/>
-				<Route
-					path="/"
-					element={
-						<ProtectedAlreadyLoginRoute>
-							<Login />
-						</ProtectedAlreadyLoginRoute>
-					}
-				/>
+				<Route path="/register" element={<Register />} />
+				<Route path="/" element={<Login />} />
 
 				<Route path="*" element={<Nopage />} />
 			</Routes>
