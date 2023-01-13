@@ -36,8 +36,6 @@ const Container = styled.div`
 		align-items: center;
 		background-color: #facc15;
 		padding: 0 2rem;
-		position: sticky;
-		top: 0px;
 		.brand {
 			text-transform: uppercase;
 			font-size: 2rem;
@@ -81,8 +79,8 @@ const Container = styled.div`
 		align-items: center;
 		background-color: #eab308;
 		padding: 0 1rem;
-		position: sticky;
-		top: 0px;
+		/* position: sticky;
+		top: 0px; */
 		z-index: 1;
 		.brand {
 			text-transform: uppercase;

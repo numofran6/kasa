@@ -49,8 +49,8 @@ export default function Login() {
 						<img src={Logo} alt="KASA" />
 					</div>
 
-					<input type="text" placeholder="Email" name="Email" />
-					<input type="password" placeholder="Password" name="password" />
+					<input type="text" placeholder="francis@kasa.com" name="Email" />
+					<input type="password" placeholder="\][poiu" name="password" />
 
 					{loading ? (
 						<div style={{ textAlign: 'center' }}>
@@ -63,6 +63,9 @@ export default function Login() {
 					<p>
 						Don't have an account? <Link to={'/register'}>Register</Link>
 					</p>
+					<em style={{ fontSize: '0.8rem', color: 'gray' }}>
+						Please sign in with placeholder credentials{' '}
+					</em>
 				</form>
 			</FormContainer>
 		</>
@@ -144,7 +147,7 @@ const FormContainer = styled.div`
 					color: #064e3b;
 					text-decoration: none;
 					font-weight: bold;
-					font-size: 1rem;
+					font-size: 0.8rem;
 					text-transform: uppercase;
 					&:hover {
 						color: #a7f3d0;
@@ -166,13 +169,14 @@ const FormContainer = styled.div`
 		gap: 1rem;
 		align-items: center;
 		background-color: #171717;
+		margin-bottom: 4rem;
 		.brand {
 			display: flex;
 			align-items: center;
 			gap: 1rem;
 			justify-content: center;
 			img {
-				height: 5rem;
+				height: 4rem;
 			}
 			h1 {
 				color: #e9d5ff;
@@ -183,13 +187,14 @@ const FormContainer = styled.div`
 		}
 		form {
 			height: fit-content;
-			width: fit-content;
+			width: 90%;
 			display: flex;
 			flex-direction: column;
+			align-items: center;
 			gap: 2rem;
 			background-color: #00000076;
-			padding: 3rem;
 			margin-top: 4rem;
+			padding: 3rem 0;
 			input {
 				background-color: transparent;
 				padding: 1rem 1.5rem;
@@ -197,7 +202,7 @@ const FormContainer = styled.div`
 				color: white;
 				border: 1px solid #67646a;
 				outline: none;
-				width: 15rem;
+				width: 60%;
 				font-size: 1rem;
 				&:focus {
 					border: 1.3px solid #064e3b;
@@ -232,7 +237,7 @@ const FormContainer = styled.div`
 					color: #064e3b;
 					text-decoration: none;
 					font-weight: bold;
-					font-size: 1rem;
+					font-size: 0.9rem;
 					text-transform: uppercase;
 					&:hover {
 						color: #a7f3d0;

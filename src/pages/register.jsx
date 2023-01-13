@@ -146,6 +146,7 @@ const FormContainer = styled.div`
 		align-items: center;
 		background-color: #171717;
 		color: white;
+		margin-bottom: 4rem;
 		.brand {
 			display: flex;
 			align-items: center;
@@ -225,7 +226,7 @@ const FormContainer = styled.div`
 				color: #064e3b;
 				text-decoration: none;
 				font-weight: bold;
-				font-size: 1rem;
+				font-size: 0.9rem;
 				text-transform: uppercase;
 				&:hover {
 					color: #a7f3d0;
@@ -246,13 +247,14 @@ const FormContainer = styled.div`
 		gap: 1rem;
 		align-items: center;
 		background-color: #171717;
+		margin-bottom: 5rem;
 		.brand {
 			display: flex;
 			align-items: center;
 			gap: 1rem;
 			justify-content: center;
 			img {
-				height: 5rem;
+				height: 4rem;
 			}
 			h1 {
 				color: #e9d5ff;
@@ -263,12 +265,13 @@ const FormContainer = styled.div`
 		}
 		form {
 			height: fit-content;
-			width: fit-content;
+			width: 90%;
 			display: flex;
 			flex-direction: column;
+			align-items: center;
 			gap: 2rem;
 			background-color: #00000076;
-			padding: 3rem 3rem 1.5rem 3rem;
+			padding: 3rem 0;
 			margin-top: 2rem;
 			input {
 				background-color: transparent;
@@ -277,7 +280,7 @@ const FormContainer = styled.div`
 				color: white;
 				border: 1px solid #423f45;
 				outline: none;
-				width: 15rem;
+				width: 60%;
 				font-size: 1rem;
 				&:focus {
 					border: 1.3px solid #064e3b;
@@ -327,7 +330,7 @@ const FormContainer = styled.div`
 					color: #064e3b;
 					text-decoration: none;
 					font-weight: bold;
-					font-size: 1rem;
+					font-size: 0.9rem;
 					text-transform: uppercase;
 					&:hover {
 						color: #a7f3d0;
